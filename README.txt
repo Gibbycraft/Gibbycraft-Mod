@@ -1,0 +1,5 @@
+
+
+LEGAL
+
+This mod (a patch to Minecraft source, henceforth "Mod" or "The Mod"), by the terms of http://www.minecraft.net/copyright.jsp is sole property of the Mod author (Gibby, henceforth "Owner" or "The Owner"). By default it may only be distributed on rockyridgegames.com or github.com, and ONLY by rockyridgegames.com or github.com. It may only be mirrored or reposted with advance written permission of the Owner. URL shorteners or other attempts to make money off The Owner's Mod (ex: adf.ly) are strictly forbidden without advance written permission. The Mod is released as "open source", meaning it can be viewed, used, or edited without permission, on the condition that The Owner is referenced as the original author of the code. Removal of the @author tag of the source code is strictly prohibited, as it violates "open source", and can be punished via law suits. Decompiling the code allows The Owner or any entity to publicly humilate the user, in any way, shape, or form. The code is already open source, and decompiling it is not necessary. 
