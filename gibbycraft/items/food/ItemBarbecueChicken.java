@@ -8,7 +8,7 @@ import net.minecraft.src.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.*;
 
-public class ItemBarbequeChicken extends ItemFood
+public class ItemBarbecueChicken extends ItemFood
 {
 
 	/**
@@ -18,7 +18,7 @@ public class ItemBarbequeChicken extends ItemFood
 	 * @param par3 saturation (higher = more time before the hunger returns)
 	 * @param par4 can a wolf omnomnom it? 
 	 */
-	public ItemBarbequeChicken(int par1, int par2, float par3, boolean par4) 
+	public ItemBarbecueChicken(int par1, int par2, float par3, boolean par4) 
 	{
 		super(par1, par2, par3, par4);
 

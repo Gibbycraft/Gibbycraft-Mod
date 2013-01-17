@@ -61,8 +61,8 @@ public class CommonProxy
 	public static String Cheese = "/gibbycraft/gui/Cheese.png";
 	public static String GrilledCheese = "/gibbycraft/gui/GrilledCheese.png";
 	public static String QuantumSword = "/gibbycraft/gui/QuantumSword.png";
-	public static String Cocoa = "/gibbycraft/gui/Cocoa.png";
-	public static String CocoaSeed = "gibbycraft/gui/CocoaSeed.png";
+	public static String TomatoCrop = "/gibbycraft/gui/TomatoCrop.png";
+	public static String TomatoSeed = "gibbycraft/gui/TomatoSeed.png";
 	public static String QSU = "gibbycraft/gui/QSU.png";
 	
 	public void registerRenderers()

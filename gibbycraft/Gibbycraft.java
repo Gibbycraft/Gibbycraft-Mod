@@ -13,8 +13,10 @@ package gibbycraft;
  */
 
 //start forge hooks
+import ic2.api.Items;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
@@ -28,9 +30,12 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import gibbycraft.proxies.CommonProxy;
 import gibbycraft.proxies.ClientProxy;
 import gibbycraft.items.food.*;
+import gibbycraft.blocks.plants.*;
+import ic2.api.*;
 
 /*
  * Mod info from cpw.mods.fml.common.Mod
@@ -99,61 +104,61 @@ public class Gibbycraft
          * MAKE SURE YOU MAKE A GLOBAL VARIABLE THAT CORRESPONDS WITH THE
          * WORD AFTER int 
          */
-        int BaconBurgerID = config.getItem("BaconBurger", 1914 ).getInt();
-        int TortillaID = config.getItem("Tortilla", 1915 ).getInt();
-        int TacoShellID = config.getItem("TacoShell", 1916 ).getInt();
-        int BeefTacoID = config.getItem("BeefTaco", 1917 ).getInt();
-        int DeluxeBeefTacoID = config.getItem("DeluxeBeefTaco", 1918 ).getInt();
-        int ChickenTacoID = config.getItem("ChickenTaco", 1919 ).getInt();
-        int DeluxeChickenTacoID = config.getItem("DeluxeChickenTaco", 1920 ).getInt();
-        int BeefBurritoID = config.getItem("BeefBurrito", 1921 ).getInt();
-        int DeluxeBeefBurritoID = config.getItem("DeluxeBeefBurrito", 1922 ).getInt();
-        int NoodlesID = config.getItem("Noodles", 1923 ).getInt();
-        int SpaghettiID = config.getItem("Spaghetti", 1924 ).getInt();
-        int SpaghettiAndMeatballsID = config.getItem("SpaghettiAndMeatballs", 1925 ).getInt();
-        int PotatoSlicesID = config.getItem("PotatoSlices", 1926 ).getInt();
-        int PotatoBitsID = config.getItem("PotatoBits", 1927 ).getInt();
-        int FriesID = config.getItem("Fries", 1928 ).getInt();
-        int CheeseFriesID = config.getItem("CheeseFries", 1929 ).getInt();
-        int TaterTotsID = config.getItem("TaterTots", 1930 ).getInt();
-        int PotatoChipsID = config.getItem("PotatoChips", 1931 ).getInt();
-        int SpicyPotatoChipsID = config.getItem("SpicyPotatoChips", 1932 ).getInt();
-        int CheesePotatoChipsID = config.getItem("CheesePotatoChips", 1933 ).getInt();
-        int SugarCookieID = config.getItem("SugarCookie", 1934 ).getInt();
-        int DoubleChocolateCookieID = config.getItem("DoubleChocolateCookie", 1935 ).getInt();
-        int CookedEggID = config.getItem("CookedEgg", 1936 ).getInt();
-        int ScrambledEggID = config.getItem("ScrambledEgg", 1937 ).getInt();
-        int BaconID = config.getItem("Bacon", 1938 ).getInt();
-        int PumpkinCookieID = config.getItem("PumpkinCookie", 1939 ).getInt();
-        int ChocolateAppleID = config.getItem("ChocolateApple", 1940 ).getInt();
-        int BarbecueChickenID = config.getItem("BarbecueChicken", 1941 ).getInt();
-        int ChickenFingerID = config.getItem("ChickenFinger", 1942 ).getInt();
-        int CheeseburgerID = config.getItem("Cheeseburger", 1943 ).getInt();
-        int ApplePieID = config.getItem("ApplePie", 1944 ).getInt();
-        int ChocolatePieID = config.getItem("ChocolatePie", 1945 ).getInt();
-        int ChocolateBarID = config.getItem("ChocolateBar", 1946 ).getInt();
-        int ChickenPizzaID = config.getItem("ChickenPizza", 1947 ).getInt();
-        int AnchoviesPizzaID = config.getItem("AnchoviesPizza", 1948 ).getInt();
-        int BeefPizzaID = config.getItem("BeefPizza", 1949 ).getInt();
-        int PepperoniPizzaID = config.getItem("PepperoniPizza", 1950 ).getInt();
-        int CheesePizzaID = config.getItem("CheesePizza", 1951 ).getInt();
-        int SauceID = config.getItem("Sauce", 1952 ).getInt();
-        int TomatoID = config.getItem("Tomato", 1953 ).getInt();
-        int BagelID = config.getItem("Bagel", 1954 ).getInt();
-        int CreamCheeseID = config.getItem("CreamCheese", 1955 ).getInt();
-        int BeefSandwichID = config.getItem("BeefSandwich", 1956 ).getInt();
-        int PorkSandwichID = config.getItem("PorkSandwich", 1957 ).getInt();
-        int ChickenSandwichID = config.getItem("ChickenSandwich", 1958 ).getInt();
-        int FishSandwichID = config.getItem("FishSandwich", 1959 ).getInt();
-        int ToastedBreadID = config.getItem("ToastedBread", 1960 ).getInt();
-        int BreadSliceID = config.getItem("BreadSlice", 1961 ).getInt();
-        int ToastID = config.getItem("Toast", 1962 ).getInt();
-        int CheeseID = config.getItem("Cheese", 1963 ).getInt();
-        int GrilledCheeseID = config.getItem("GrilledCheese", 1964 ).getInt();
-        int QuantumSwordID = config.getItem("QuantumSword", 1965 ).getInt();
-        int CocoaID = config.getBlock("Cocoa", 195 ).getInt();
-        int CocoaSeedID = config.getItem("CocoaSeed", 1966 ).getInt();
-        int QSUID = config.getBlock("QSU", 200 ).getInt();
+        BaconBurgerID = config.getItem("BaconBurger", 1914 ).getInt();
+        TortillaID = config.getItem("Tortilla", 1915 ).getInt();
+        TacoShellID = config.getItem("TacoShell", 1916 ).getInt();
+        BeefTacoID = config.getItem("BeefTaco", 1917 ).getInt();
+        DeluxeBeefTacoID = config.getItem("DeluxeBeefTaco", 1918 ).getInt();
+        ChickenTacoID = config.getItem("ChickenTaco", 1919 ).getInt();
+        DeluxeChickenTacoID = config.getItem("DeluxeChickenTaco", 1920 ).getInt();
+        BeefBurritoID = config.getItem("BeefBurrito", 1921 ).getInt();
+        DeluxeBeefBurritoID = config.getItem("DeluxeBeefBurrito", 1922 ).getInt();
+        NoodlesID = config.getItem("Noodles", 1923 ).getInt();
+        SpaghettiID = config.getItem("Spaghetti", 1924 ).getInt();
+        SpaghettiAndMeatballsID = config.getItem("SpaghettiAndMeatballs", 1925 ).getInt();
+        PotatoSlicesID = config.getItem("PotatoSlices", 1926 ).getInt();
+        PotatoBitsID = config.getItem("PotatoBits", 1927 ).getInt();
+        FriesID = config.getItem("Fries", 1928 ).getInt();
+        CheeseFriesID = config.getItem("CheeseFries", 1929 ).getInt();
+        TaterTotsID = config.getItem("TaterTots", 1930 ).getInt();
+        PotatoChipsID = config.getItem("PotatoChips", 1931 ).getInt();
+        SpicyPotatoChipsID = config.getItem("SpicyPotatoChips", 1932 ).getInt();
+        CheesePotatoChipsID = config.getItem("CheesePotatoChips", 1933 ).getInt();
+        SugarCookieID = config.getItem("SugarCookie", 1934 ).getInt();
+        DoubleChocolateCookieID = config.getItem("DoubleChocolateCookie", 1935 ).getInt();
+        CookedEggID = config.getItem("CookedEgg", 1936 ).getInt();
+        ScrambledEggID = config.getItem("ScrambledEgg", 1937 ).getInt();
+        BaconID = config.getItem("Bacon", 1938 ).getInt();
+        PumpkinCookieID = config.getItem("PumpkinCookie", 1939 ).getInt();
+        ChocolateAppleID = config.getItem("ChocolateApple", 1940 ).getInt();
+        BarbecueChickenID = config.getItem("BarbecueChicken", 1941 ).getInt();
+        ChickenFingerID = config.getItem("ChickenFinger", 1942 ).getInt();
+        CheeseburgerID = config.getItem("Cheeseburger", 1943 ).getInt();
+        ApplePieID = config.getItem("ApplePie", 1944 ).getInt();
+        ChocolatePieID = config.getItem("ChocolatePie", 1945 ).getInt();
+        ChocolateBarID = config.getItem("ChocolateBar", 1946 ).getInt();
+        ChickenPizzaID = config.getItem("ChickenPizza", 1947 ).getInt();
+        AnchoviesPizzaID = config.getItem("AnchoviesPizza", 1948 ).getInt();
+        BeefPizzaID = config.getItem("BeefPizza", 1949 ).getInt();
+        PepperoniPizzaID = config.getItem("PepperoniPizza", 1950 ).getInt();
+        CheesePizzaID = config.getItem("CheesePizza", 1951 ).getInt();
+        SauceID = config.getItem("Sauce", 1952 ).getInt();
+        TomatoID = config.getItem("Tomato", 1953 ).getInt();
+        BagelID = config.getItem("Bagel", 1954 ).getInt();
+        CreamCheeseID = config.getItem("CreamCheese", 1955 ).getInt();
+        BeefSandwichID = config.getItem("BeefSandwich", 1956 ).getInt();
+        PorkSandwichID = config.getItem("PorkSandwich", 1957 ).getInt();
+        ChickenSandwichID = config.getItem("ChickenSandwich", 1958 ).getInt();
+        FishSandwichID = config.getItem("FishSandwich", 1959 ).getInt();
+        ToastedBreadID = config.getItem("ToastedBread", 1960 ).getInt();
+        BreadSliceID = config.getItem("BreadSlice", 1961 ).getInt();
+        ToastID = config.getItem("Toast", 1962 ).getInt();
+        CheeseID = config.getItem("Cheese", 1963 ).getInt();
+        GrilledCheeseID = config.getItem("GrilledCheese", 1964 ).getInt();
+        QuantumSwordID = config.getItem("QuantumSword", 1965 ).getInt();
+        TomatoCropID = config.getBlock("TomatoCrop", 195 ).getInt();
+        TomatoSeedID = config.getItem("TomatoSeed", 1966 ).getInt();
+        QSUID = config.getBlock("QSU", 200 ).getInt();
 
         /*
          * Turn on or off certain sections of the mod. Format is
@@ -175,14 +180,14 @@ public class Gibbycraft
     	 */
 
     	ItemQuantumSword = new ItemQuantumSword(QuantumSwordID, 6, 1F, false).setItemName("QuantumSword").setIconIndex(0);
-    	BlockCocoa = new BlockCocoa(CocoaID);
-    	ItemCocoaSeed = new ItemCocoaSeed(CocoaSeedID, 6, 1F, false).setItemName("CocoaSeed").setIconIndex(0);
+
     	BlockQSU = new BlockQSU(QSUID, 0).setHardness(3.0F).setResistance(3.0F).setItemName("QSU").setIconIndex(0);
     	
     	if(UseFood==true)
     	{
     		loadFood();
     		loadFoodRecipes();
+    		registerFoodNames();
     	}
     	
     	/*
@@ -191,10 +196,15 @@ public class Gibbycraft
     	 * TODO Clean up recipes
     	 */
     	
-    	ModLoader.addRecipe(new ItemStack(ItemQuantumSaber, 1), new Object [] {"T# ","%# ","!@!", Character.valueOf('T'), Items.getItem("teslaCoil").getItem(), Character.valueOf('#'), Items.getItem("iridiumPlate").getItem(),Character.valueOf('%'), Item.redstone, Character.valueOf('!'), Items.getItem("carbonPlate").getItem(), Character.valueOf('@'), Items.getItem("lapotronCrystal").getItem()});
-        ModLoader.addRecipe(new ItemStack(ItemCocoaSeed, 1), new Object [] {"S", Character.valueOf('S'), new ItemStack(Item.dyePowder, 1, 3)});
-        ModLoader.addRecipe(new ItemStack(Item.dyePowder, 1, 3), new Object [] {"S", Character.valueOf('S'), ItemCocoaSeed});
+    	GameRegistry.addRecipe(new ItemStack(ItemQuantumSword, 1), new Object [] {"T# ","%# ","!@!", Character.valueOf('T'), Items.getItem("teslaCoil").getItem(), Character.valueOf('#'), Items.getItem("iridiumPlate").getItem(),Character.valueOf('%'), Item.redstone, Character.valueOf('!'), Items.getItem("carbonPlate").getItem(), Character.valueOf('@'), Items.getItem("lapotronCrystal").getItem()});
         //ModLoader.addRecipe(new ItemStack(BlockQSU,1,0), new Object [] {"IFI","FTF","IFI", Character.valueOf('I'), Items.getItem("iridiumPlate").getItem(), Character.valueOf('F'), Items.getItem("mfsUnit").getItem(), Character.valueOf('T'), Items.getItem("hvTransformer")});
+        
+        /*
+         * Add the names to Minecraft
+         */
+        LanguageRegistry.addName(ItemGrilledCheese, "Grilled Cheese");
+        LanguageRegistry.addName(ItemQuantumSword, "Quantum Saber");
+
 
 
     	proxy.registerRenderers();
@@ -266,8 +276,8 @@ public class Gibbycraft
     public static int CheeseID;
     public static int GrilledCheeseID;
     public static int QuantumSwordID;
-    public static int CocoaID;
-    public static int CocoaSeedID;
+    public static int TomatoCropID;
+    public static int TomatoSeedID;
     public static int QSUID;
     
     public static boolean UseFood;
@@ -328,8 +338,8 @@ public class Gibbycraft
     public static Item ItemCheese;
     public static Item ItemGrilledCheese;
     public static Item ItemQuantumSword;
-    public static Block BlockCocoa;
-    public static Item ItemCocoaSeed;
+    public static Block BlockTomatoCrop;
+    public static ItemSeeds ItemTomatoSeed;
     public static Block BlockQSU;
     
     /*
@@ -390,7 +400,10 @@ public class Gibbycraft
     	 ItemCheese = new ItemCheese(CheeseID, 1, 0.3F, false).setItemName("Cheese").setIconIndex(0);
     	 ItemGrilledCheese = new ItemGrilledCheese(GrilledCheeseID, 6, 0.9F, false).setItemName("GrilledCheese").setIconIndex(0);
 
-    	 
+     	BlockTomatoCrop = new BlockTomatoCrop(TomatoCropID, 0);
+        ItemTomatoSeed = (ItemSeeds) new ItemSeeds(TomatoSeedID,
+                BlockTomatoCrop.blockID, Block.tilledField.blockID).setIconIndex(0)
+                .setTextureFile(proxy.TomatoSeed);
 
     }
     
@@ -436,6 +449,7 @@ public class Gibbycraft
         GameRegistry.addRecipe(new ItemStack(ItemToast, 4), new Object [] {"#", Character.valueOf('#'), ItemToastedBread});
         GameRegistry.addRecipe(new ItemStack(ItemBreadSlice, 4), new Object [] {"#", Character.valueOf('#'), Item.bread});
         GameRegistry.addRecipe(new ItemStack(ItemGrilledCheese, 1), new Object [] {"#","%","#", Character.valueOf('#'), ItemToast, Character.valueOf('%'), ItemCheese});
+        GameRegistry.addRecipe(new ItemStack(ItemTomatoSeed, 1), new Object [] {"T", Character.valueOf('T'), ItemTomato});
         
         GameRegistry.addSmelting(TomatoID, new ItemStack(ItemSauce, 1), 0.1F);
         GameRegistry.addSmelting(Item.bread.shiftedIndex, new ItemStack(ItemToastedBread, 1), 0.1F);
@@ -444,7 +458,72 @@ public class Gibbycraft
         GameRegistry.addSmelting(PotatoSlicesID, new ItemStack(ItemFries, 1), 0.1F);
         GameRegistry.addSmelting(PotatoBitsID, new ItemStack(ItemTaterTots, 1), 0.1F);
         GameRegistry.addSmelting(Item.egg.shiftedIndex, new ItemStack(ItemCookedEgg, 1), 0.1F);
+        
+        Ic2Recipes.addExtractorRecipe(new ItemStack(Item.bucketMilk, 1), new ItemStack(ItemCheese, 2));
+        Ic2Recipes.addExtractorRecipe(new ItemStack(Item.wheat, 1), new ItemStack(ItemNoodles, 1));
+        
+        Ic2Recipes.addCompressorRecipe(new ItemStack(Item.wheat, 3), new ItemStack(ItemTortilla, 1));
+        
+        Ic2Recipes.addMaceratorRecipe(new ItemStack(Item.potato, 1), new ItemStack(ItemPotatoBits, 1));
+        Ic2Recipes.addMaceratorRecipe(new ItemStack(ItemCookedEgg, 1), new ItemStack(ItemScrambledEgg, 1));
                 
     }
 	
+    private void registerFoodNames()
+    {
+        LanguageRegistry.addName(ItemBaconBurger, "BaconBurger");
+        LanguageRegistry.addName(ItemTortilla, "Tortilla");
+        LanguageRegistry.addName(ItemTacoShell, "Taco Shell");
+        LanguageRegistry.addName(ItemBeefTaco, "Beef Taco");
+        LanguageRegistry.addName(ItemDeluxeBeefTaco, "Deluxe Beef Taco");
+        LanguageRegistry.addName(ItemChickenTaco, "Chicken Taco");
+        LanguageRegistry.addName(ItemDeluxeChickenTaco, "Deluxe Chicken Taco");
+        LanguageRegistry.addName(ItemBeefBurrito, "Beef Burrito");
+        LanguageRegistry.addName(ItemDeluxeBeefBurrito, "Deluxe Beef Burrito");
+        LanguageRegistry.addName(ItemNoodles, "Noodles");
+        LanguageRegistry.addName(ItemSpaghetti, "Spaghetti");
+        LanguageRegistry.addName(ItemSpaghettiAndMeatballs, "Spaghetti And Meatballs");
+        LanguageRegistry.addName(ItemPotatoSlices, "Potato Slices");
+        LanguageRegistry.addName(ItemPotatoBits, "Potato Bits");
+        LanguageRegistry.addName(ItemFries, "Fries");
+        LanguageRegistry.addName(ItemCheeseFries, "Cheese Fries");
+        LanguageRegistry.addName(ItemTaterTots, "Tater Tots");
+        LanguageRegistry.addName(ItemPotatoChips, "Potato Chips");
+        LanguageRegistry.addName(ItemSpicyPotatoChips, "Spicy Potato Chips");
+        LanguageRegistry.addName(ItemCheesePotatoChips, "Cheese Potato Chips");
+        LanguageRegistry.addName(ItemSugarCookie, "Sugar Cookie");
+        LanguageRegistry.addName(ItemDoubleChocolateCookie, "Double Chocolate Cookie");
+        LanguageRegistry.addName(ItemCookedEgg, "Cooked Egg");
+        LanguageRegistry.addName(ItemScrambledEgg, "Scrambled Eggs");
+        LanguageRegistry.addName(ItemBacon, "Bacon");
+        LanguageRegistry.addName(ItemPumpkinCookie, "Pumpkin Cookie");
+        LanguageRegistry.addName(ItemChocolateApple, "Chocolate Apple");
+        LanguageRegistry.addName(ItemTomato, "Tomato");
+        LanguageRegistry.addName(ItemBarbecueChicken, "Barbeque Chicken");
+        LanguageRegistry.addName(ItemChickenFinger, "Chicken Finger");
+        LanguageRegistry.addName(ItemCheeseburger, "Cheeseburger");
+        LanguageRegistry.addName(ItemApplePie, "Apple Pie");
+        LanguageRegistry.addName(ItemChocolatePie, "Chocolate Pie");
+        LanguageRegistry.addName(ItemChickenPizza, "Chicken Pizza");
+        LanguageRegistry.addName(ItemChocolateBar, "Chocoloate Bar");
+        LanguageRegistry.addName(ItemAnchoviesPizza, "Anchovies Pizza");
+        LanguageRegistry.addName(ItemBeefPizza, "Beef Pizza");
+        LanguageRegistry.addName(ItemPepperoniPizza, "Pepperoni Pizza");          
+        LanguageRegistry.addName(ItemCheesePizza, "Cheese Pizza");
+        LanguageRegistry.addName(ItemSauce, "Sauce");
+        LanguageRegistry.addName(ItemTomato, "Tomato");              
+        LanguageRegistry.addName(ItemBagel, "Bagel");
+        LanguageRegistry.addName(ItemCreamCheese, "Cream Cheese");
+        LanguageRegistry.addName(ItemBeefSandwich, "Beef Sandwich");
+        LanguageRegistry.addName(ItemPorkSandwich, "Pork Sandwich");
+        LanguageRegistry.addName(ItemChickenSandwich, "Chicken Sandwich");
+        LanguageRegistry.addName(ItemFishSandwich, "Fish Sandwich");
+        LanguageRegistry.addName(ItemToastedBread, "Toasted Bread");
+        LanguageRegistry.addName(ItemBreadSlice, "Bread Slice");
+        LanguageRegistry.addName(ItemToast, "Toast");
+        LanguageRegistry.addName(ItemCheese, "Cheese");
+        LanguageRegistry.addName(BlockTomatoCrop, "Tomato Crop");
+        LanguageRegistry.addName(ItemTomatoSeed, "Tomato Seed");
+
+    }
 }

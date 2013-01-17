@@ -14,8 +14,8 @@ public class ClientProxy extends CommonProxy
 		if(useFood==true)
 			registerFood();
 		MinecraftForgeClient.preloadTexture(QuantumSword);
-		MinecraftForgeClient.preloadTexture(Cocoa);
-		MinecraftForgeClient.preloadTexture(CocoaSeed);
+		MinecraftForgeClient.preloadTexture(TomatoCrop);
+		MinecraftForgeClient.preloadTexture(TomatoSeed);
 		MinecraftForgeClient.preloadTexture(QSU);
 	}
 	
