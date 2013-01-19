@@ -15,6 +15,8 @@ package gibbycraft;
 //start forge hooks
 import ic2.api.Items;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
@@ -35,6 +37,8 @@ import gibbycraft.proxies.CommonProxy;
 import gibbycraft.proxies.ClientProxy;
 import gibbycraft.items.food.*;
 import gibbycraft.blocks.plants.*;
+import gibbycraft.block.technic.*;
+import gibbycraft.items.tools.*;
 import ic2.api.*;
 
 /*
@@ -179,9 +183,9 @@ public class Gibbycraft
     	 * Load all items, then register their textures
     	 */
 
-    	ItemQuantumSword = new ItemQuantumSword(QuantumSwordID, 6, 1F, false).setItemName("QuantumSword").setIconIndex(0);
+    	ItemQuantumSword = new ItemQuantumSword(QuantumSwordID, EnumToolMaterial.IRON).setItemName("QuantumSword").setIconIndex(0);
 
-    	BlockQSU = new BlockQSU(QSUID, 0).setHardness(3.0F).setResistance(3.0F).setItemName("QSU").setIconIndex(0);
+    	BlockQSU = new BlockQSU(QSUID, 0, Material.iron).setHardness(3.0F).setResistance(3.0F).setBlockName("QSU");
     	
     	if(UseFood==true)
     	{
