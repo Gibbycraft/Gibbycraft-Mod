@@ -4,7 +4,9 @@
 
 package gibbycraft.items.food;
 
+import gibbycraft.Gibbycraft;
 import net.minecraft.src.*;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.*;
 
@@ -25,12 +27,11 @@ public class ItemAnchoviesPizza extends ItemFood
 		//Wanna see a cool trick that gets this into the creative food tab?
 		this.setCreativeTab(CreativeTabs.tabFood);
 	}
-
-	/**
-	 * @return the location of the image, used by ClientProxy
-	 */
-	public String getTextureFile()
+	
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister icon)
 	{
-		return "/gibbycraft/gui/AnchoviesPizza.png";
+		this.itemIcon = icon.registerIcon(Gibbycraft.modid + ":" + (this.getUnlocalizedName().substring(5)));
+		
 	}
 }

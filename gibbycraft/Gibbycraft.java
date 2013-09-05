@@ -13,7 +13,7 @@ package gibbycraft;
  */
 
 //start forge hooks
-import ic2.api.Items;
+//import ic2.api.Items;  // bring in when we use the API
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.EnumToolMaterial;
@@ -22,6 +22,7 @@ import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
@@ -33,29 +34,29 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import gibbycraft.proxies.CommonProxy;
-import gibbycraft.proxies.ClientProxy;
-import gibbycraft.items.food.*;
+import gibbycraft.proxies.*;
+import gibbycraft.items.food.*; /* // may not need this block
 import gibbycraft.blocks.plants.*;
 import gibbycraft.block.technic.*;
 import gibbycraft.items.tools.*;
 import ic2.api.*;
+*/
 
 /*
  * Mod info from cpw.mods.fml.common.Mod
  */
 @Mod
 (
-		modid="Gibbycraft", 
+		modid="gibbycraft", 
 		name="Gibbycraft", 
-		version="0.2.0"
-		//, dependencies="before:AragamiMod;after:BuildCraft|Core;after:ComputerCraft;after:Railcraft;after:IC2;after:RedPowerWorld"
+		version="1.6.2.0.0" //MC version.gibbycraftMajor.gibbycraftMinor
+		//, dependencies="after:BuildCraft;after:ComputerCraft;after:Railcraft;after:IC2"  //comment in when we start using them
 		)
 
 @NetworkMod
 (
 		clientSideRequired=true, 
-		serverSideRequired=true
+		serverSideRequired=false  //changed to address an issue with loading in 1.6
 		)
 //end forge hooks
 
@@ -67,6 +68,10 @@ public class Gibbycraft
     public static Gibbycraft instance;
    
     /*
+     * All renderers use this to get their names
+     */
+    public static final String modid="gibbycraft";
+    /*
      * Brace yourselves, long explanation inbound.
      * 
      * Proxies are this new idea that revolves around 1.4.6+ using servers in single player and multiplayer.
@@ -77,21 +82,21 @@ public class Gibbycraft
      * code in the server is like slapping Icy Hot on your balls. Don't do it; it's plain retarded.
      * 
      * Client proxies always are headed by Client- and server side is headed by Common-
+     * We call it Common, because the client and server both use it, the client just is more 
+     * needy and needs another.
      * 
-     * BIG NOTE, AS THIS WILL BITE YOU IN THE ASS LATER:
-     * The client proxy inherits the server (common) proxy. Anything not overloaded in client acts like server.
-     * I noted this again in the client proxy.
+     * Simpler than last time, right?
      */
     @SidedProxy(clientSide="gibbycraft.proxies.ClientProxy", serverSide="gibbycraft.proxies.CommonProxy")
-    public static CommonProxy proxy;
+    public static CommonProxy proxy;  //TODO Remake proxies
    
     /*
-     * New in 0.2.0, this dude generates a config file that lets the user pick and choose item IDs,
+     * New in x.0.2, this dude generates a config file that lets the user pick and choose item IDs,
      * and even disable features. Nifty, and it allows us to deal with whiny 12 year olds that can't
-     * get the mod to work.
+     * get the mod to work, or people who want to change item ids so their mod works with this one.
      */
-    @PreInit
-    public void preInit(FMLPreInitializationEvent event) 
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) //TODO verify accuracy to 1.6 forge cfg file
     {
     	//make or load the config file
     	Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -173,20 +178,19 @@ public class Gibbycraft
         boolean UseFood = config.get(Configuration.CATEGORY_GENERAL, "UseFood", true).getBoolean(true);
 
         config.save();
-        proxy.getUseFood(UseFood);
     }
    
-    @Init
+    @EventHandler
     public void load(FMLInitializationEvent event) 
     {
     	/*
     	 * Load all items, then register their textures
     	 */
+/*   add in when IC2 API added in
+    	ItemQuantumSword = new ItemQuantumSword(QuantumSwordID, EnumToolMaterial.IRON).setItemName("QuantumSword").setIconIndex(0); //TODO add Quantum Sword
 
-    	ItemQuantumSword = new ItemQuantumSword(QuantumSwordID, EnumToolMaterial.IRON).setItemName("QuantumSword").setIconIndex(0);
-
-    	BlockQSU = new BlockQSU(QSUID, 0, Material.iron).setHardness(3.0F).setResistance(3.0F).setBlockName("QSU");
-    	
+    	BlockQSU = new BlockQSU(QSUID, 0, Material.iron).setHardness(3.0F).setResistance(3.0F).setBlockName("QSU"); //TODO Add QSU, maybe add universal electricity compat
+   */ 	
     	if(UseFood==true)
     	{
     		loadFood();
@@ -200,7 +204,7 @@ public class Gibbycraft
     	 * TODO Clean up recipes
     	 */
     	
-    	GameRegistry.addRecipe(new ItemStack(ItemQuantumSword, 1), new Object [] {"T# ","%# ","!@!", Character.valueOf('T'), Items.getItem("teslaCoil").getItem(), Character.valueOf('#'), Items.getItem("iridiumPlate").getItem(),Character.valueOf('%'), Item.redstone, Character.valueOf('!'), Items.getItem("carbonPlate").getItem(), Character.valueOf('@'), Items.getItem("lapotronCrystal").getItem()});
+    	//GameRegistry.addRecipe(new ItemStack(ItemQuantumSword, 1), new Object [] {"T# ","%# ","!@!", Character.valueOf('T'), Items.getItem("teslaCoil").getItem(), Character.valueOf('#'), Items.getItem("iridiumPlate").getItem(),Character.valueOf('%'), Item.redstone, Character.valueOf('!'), Items.getItem("carbonPlate").getItem(), Character.valueOf('@'), Items.getItem("lapotronCrystal").getItem()});
         //ModLoader.addRecipe(new ItemStack(BlockQSU,1,0), new Object [] {"IFI","FTF","IFI", Character.valueOf('I'), Items.getItem("iridiumPlate").getItem(), Character.valueOf('F'), Items.getItem("mfsUnit").getItem(), Character.valueOf('T'), Items.getItem("hvTransformer")});
         
         /*
@@ -217,7 +221,7 @@ public class Gibbycraft
 
     }
    
-    @PostInit
+    @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
             // Stub Method
     }
@@ -351,63 +355,61 @@ public class Gibbycraft
      */
     private void loadFood()
     {
-    	//TODO: make item classes in gibbycraft.items.food
-    	 ItemBaconBurger = new ItemBaconBurger(BaconBurgerID, 16, 1.5F, false).setItemName("BaconBurger").setIconIndex(0);
-    	 ItemTortilla = new ItemTortilla(TortillaID, 1, 0.3F, false).setItemName("Tortilla").setIconIndex(0);
-    	 ItemTacoShell = new ItemTacoShell(TacoShellID, 2, 0.4F, false).setItemName("TacoShell").setIconIndex(0);
-    	 ItemBeefTaco = new ItemBeefTaco(BeefTacoID, 10, 1F, false).setItemName("BeefTaco").setIconIndex(0);
-    	 ItemDeluxeBeefTaco = new ItemDeluxeBeefTaco(DeluxeBeefTacoID, 15, 1.2F, false).setItemName("DeluxeBeefTaco").setIconIndex(0);
-    	 ItemChickenTaco = new ItemChickenTaco(ChickenTacoID, 10, 1F, false).setItemName("ChickenTaco").setIconIndex(0);
-    	 ItemDeluxeChickenTaco = new ItemDeluxeChickenTaco(DeluxeChickenTacoID, 15, 1.2F, false).setItemName("DeluxeChickenTaco").setIconIndex(0);
-    	 ItemBeefBurrito = new ItemBeefBurrito(BeefBurritoID, 9, 1F, false).setItemName("BeefBurrito").setIconIndex(0);
-    	 ItemDeluxeBeefBurrito = new ItemDeluxeBeefBurrito(DeluxeBeefBurritoID, 12, 1.3F, false).setItemName("DeluxeBeefBurrito").setIconIndex(0);
-    	 ItemNoodles = new ItemNoodles(NoodlesID, 1, 0.3F, false).setItemName("Noodles").setIconIndex(0);
-    	 ItemSpaghetti = new ItemSpaghetti(SpaghettiID, 8, 0.7F, false).setItemName("Spaghetti").setIconIndex(0);
-    	 ItemSpaghettiAndMeatballs = new ItemSpaghettiAndMeatballs(SpaghettiAndMeatballsID, 15, 1.5F, false).setItemName("SpaghettiAndMeatballs").setIconIndex(0);
-    	 ItemPotatoSlices = new ItemPotatoSlices(PotatoSlicesID, 2, 0.4F, false).setItemName("PotatoSlices").setIconIndex(0);
-    	 ItemPotatoBits = new ItemPotatoBits(PotatoBitsID, 2, 0.4F, false).setItemName("PotatoBits").setIconIndex(0);
-    	 ItemFries = new ItemFries(FriesID, 4, 0.6F, false).setItemName("Fries").setIconIndex(0);
-    	 ItemCheeseFries = new ItemCheeseFries(CheeseFriesID, 7, 0.8F, false).setItemName("CheeseFries").setIconIndex(0);
-    	 ItemTaterTots = new ItemTaterTots(TaterTotsID, 4, 0.6F, false).setItemName("TaterTots").setIconIndex(0);
-    	 ItemPotatoChips = new ItemPotatoChips(PotatoChipsID, 4, 0.6F, false).setItemName("PotatoChips").setIconIndex(0);
-    	 ItemSpicyPotatoChips = new ItemSpicyPotatoChips(SpicyPotatoChipsID, 7, 0.5F, false).setItemName("SpicyPotatoChips").setIconIndex(0);
-    	 ItemCheesePotatoChips = new ItemCheesePotatoChips(CheesePotatoChipsID, 7, 0.5F, false).setItemName("CheesePotatoChips").setIconIndex(0);
-    	 ItemSugarCookie = new ItemSugarCookie(SugarCookieID, 1, 0.1F, false).setItemName("SugarCookie").setIconIndex(0);
-    	 ItemDoubleChocolateCookie = new ItemDoubleChocolateCookie(DoubleChocolateCookieID, 2, 0.3F, false).setItemName("DoubleChocolateCookie").setIconIndex(0);
-    	 ItemCookedEgg = new ItemCookedEgg(CookedEggID, 3, 0.4F, false).setItemName("CookedEgg").setIconIndex(0);
-    	 ItemScrambledEgg = new ItemScrambledEgg(ScrambledEggID, 6, 0.8F, false).setItemName("ScrambledEgg").setIconIndex(0);
-    	 ItemBacon = new ItemBacon(BaconID, 2, 0.2F, false).setItemName("Bacon").setIconIndex(0);
-    	 ItemPumpkinCookie = new ItemPumpkinCookie(PumpkinCookieID, 2, 0.4F, false).setItemName("PumpkinCookie").setIconIndex(0);
-    	 ItemChocolateApple = new ItemChocolateApple(ChocolateAppleID, 6, 0.4F, false).setItemName("ChocolateApple").setIconIndex(0);
-    	 ItemBarbecueChicken = new ItemBarbecueChicken(BarbecueChickenID, 4, 0.4F, false).setItemName("BarbecueChicken").setIconIndex(0);
-    	 ItemChickenFinger = new ItemChickenFinger(ChickenFingerID, 2, 0.2F, false).setItemName("ChickenFinger").setIconIndex(0);
-    	 ItemCheeseburger = new ItemCheeseburger(CheeseburgerID, 14, 1.3F, false).setItemName("Cheeseburger").setIconIndex(0);
-    	 ItemApplePie = new ItemApplePie(ApplePieID, 10, 0.9F, false).setItemName("ApplePie").setIconIndex(0);
-    	 ItemChocolatePie = new ItemChocolatePie(ChocolatePieID, 10, 0.9F, false).setItemName("ChocolatePie").setIconIndex(0);
-    	 ItemChocolateBar = new ItemChocolateBar(ChocolateBarID, 7, 0.4F, false).setItemName("ChocolateBar").setIconIndex(0);
-    	 ItemChickenPizza = new ItemChickenPizza(ChickenPizzaID, 18, 1.5F, false).setItemName("ChickenPizza").setIconIndex(0);
-    	 ItemAnchoviesPizza = new ItemAnchoviesPizza(AnchoviesPizzaID, 18, 1.5F, false).setItemName("AnchoviesPizza").setIconIndex(0);
-    	 ItemBeefPizza = new ItemBeefPizza(BeefPizzaID, 18, 1.5F, false).setItemName("BeefPizza").setIconIndex(0);
-    	 ItemPepperoniPizza = new ItemPepperoniPizza(PepperoniPizzaID, 18, 1.5F, false).setItemName("PepperoniPizza").setIconIndex(0);
-    	 ItemCheesePizza = new ItemCheesePizza(CheesePizzaID, 15, 1.2F, false).setItemName("CheesePizza").setIconIndex(0);
-    	 ItemSauce = new ItemSauce(SauceID, 2, 0.3F, false).setItemName("Sauce").setIconIndex(0);
-    	 ItemTomato = new ItemTomato(TomatoID, 1, 0.2F, false).setItemName("Tomato").setIconIndex(0);
-    	 ItemBagel = new ItemBagel(BagelID, 8, 0.8F, false).setItemName("Bagel").setIconIndex(0);
-    	 ItemCreamCheese = new ItemCreamCheese(CreamCheeseID, 2, 0.3F, false).setItemName("CreamCheese").setIconIndex(0);
-    	 ItemBeefSandwich = new ItemBeefSandwich(BeefSandwichID, 12, 1F, false).setItemName("BeefSandwich").setIconIndex(0);
-    	 ItemPorkSandwich = new ItemPorkSandwich(PorkSandwichID, 12, 1F, false).setItemName("PorkSandwich").setIconIndex(0);
-    	 ItemChickenSandwich = new ItemChickenSandwich(ChickenSandwichID, 12, 1F, false).setItemName("ChickenSandwich").setIconIndex(0);
-    	 ItemFishSandwich = new ItemFishSandwich(FishSandwichID, 12, 1F, false).setItemName("FishSandwich").setIconIndex(0);
-    	 ItemToastedBread = new ItemToastedBread(ToastedBreadID, 8, 0.6F, false).setItemName("ToastedBread").setIconIndex(0);
-    	 ItemBreadSlice = new ItemBreadSlice(BreadSliceID, 1, 0.6F, false).setItemName("BreadSlice").setIconIndex(0);
-    	 ItemToast = new ItemToast(ToastID, 2, 0.6F, false).setItemName("Toast").setIconIndex(0);
-    	 ItemCheese = new ItemCheese(CheeseID, 1, 0.3F, false).setItemName("Cheese").setIconIndex(0);
-    	 ItemGrilledCheese = new ItemGrilledCheese(GrilledCheeseID, 6, 0.9F, false).setItemName("GrilledCheese").setIconIndex(0);
+    	 ItemBaconBurger = new ItemBaconBurger(BaconBurgerID, 16, 1.5F, false).setUnlocalizedName("BaconBurger");
+    	 ItemTortilla = new ItemTortilla(TortillaID, 1, 0.3F, false).setUnlocalizedName("Tortilla");
+    	 ItemTacoShell = new ItemTacoShell(TacoShellID, 2, 0.4F, false).setUnlocalizedName("TacoShell");
+    	 ItemBeefTaco = new ItemBeefTaco(BeefTacoID, 10, 1F, false).setUnlocalizedName("BeefTaco");
+    	 ItemDeluxeBeefTaco = new ItemDeluxeBeefTaco(DeluxeBeefTacoID, 15, 1.2F, false).setUnlocalizedName("DeluxeBeefTaco");
+    	 ItemChickenTaco = new ItemChickenTaco(ChickenTacoID, 10, 1F, false).setUnlocalizedName("ChickenTaco");
+    	 ItemDeluxeChickenTaco = new ItemDeluxeChickenTaco(DeluxeChickenTacoID, 15, 1.2F, false).setUnlocalizedName("DeluxeChickenTaco");
+    	 ItemBeefBurrito = new ItemBeefBurrito(BeefBurritoID, 9, 1F, false).setUnlocalizedName("BeefBurrito");
+    	 ItemDeluxeBeefBurrito = new ItemDeluxeBeefBurrito(DeluxeBeefBurritoID, 12, 1.3F, false).setUnlocalizedName("DeluxeBeefBurrito");
+    	 ItemNoodles = new ItemNoodles(NoodlesID, 1, 0.3F, false).setUnlocalizedName("Noodles");
+    	 ItemSpaghetti = new ItemSpaghetti(SpaghettiID, 8, 0.7F, false).setUnlocalizedName("Spaghetti");
+    	 ItemSpaghettiAndMeatballs = new ItemSpaghettiAndMeatballs(SpaghettiAndMeatballsID, 15, 1.5F, false).setUnlocalizedName("SpaghettiAndMeatballs");
+    	 ItemPotatoSlices = new ItemPotatoSlices(PotatoSlicesID, 2, 0.4F, false).setUnlocalizedName("PotatoSlices");
+    	 ItemPotatoBits = new ItemPotatoBits(PotatoBitsID, 2, 0.4F, false).setUnlocalizedName("PotatoBits");
+    	 ItemFries = new ItemFries(FriesID, 4, 0.6F, false).setUnlocalizedName("Fries");
+    	 ItemCheeseFries = new ItemCheeseFries(CheeseFriesID, 7, 0.8F, false).setUnlocalizedName("CheeseFries");
+    	 ItemTaterTots = new ItemTaterTots(TaterTotsID, 4, 0.6F, false).setUnlocalizedName("TaterTots");
+    	 ItemPotatoChips = new ItemPotatoChips(PotatoChipsID, 4, 0.6F, false).setUnlocalizedName("PotatoChips");
+    	 ItemSpicyPotatoChips = new ItemSpicyPotatoChips(SpicyPotatoChipsID, 7, 0.5F, false).setUnlocalizedName("SpicyPotatoChips");
+    	 ItemCheesePotatoChips = new ItemCheesePotatoChips(CheesePotatoChipsID, 7, 0.5F, false).setUnlocalizedName("CheesePotatoChips");
+    	 ItemSugarCookie = new ItemSugarCookie(SugarCookieID, 1, 0.1F, false).setUnlocalizedName("SugarCookie");
+    	 ItemDoubleChocolateCookie = new ItemDoubleChocolateCookie(DoubleChocolateCookieID, 2, 0.3F, false).setUnlocalizedName("DoubleChocolateCookie");
+    	 ItemCookedEgg = new ItemCookedEgg(CookedEggID, 3, 0.4F, false).setUnlocalizedName("CookedEgg");
+    	 ItemScrambledEgg = new ItemScrambledEgg(ScrambledEggID, 6, 0.8F, false).setUnlocalizedName("ScrambledEgg");
+    	 ItemBacon = new ItemBacon(BaconID, 2, 0.2F, false).setUnlocalizedName("Bacon");
+    	 ItemPumpkinCookie = new ItemPumpkinCookie(PumpkinCookieID, 2, 0.4F, false).setUnlocalizedName("PumpkinCookie");
+    	 ItemChocolateApple = new ItemChocolateApple(ChocolateAppleID, 6, 0.4F, false).setUnlocalizedName("ChocolateApple");
+    	 ItemBarbecueChicken = new ItemBarbecueChicken(BarbecueChickenID, 4, 0.4F, false).setUnlocalizedName("BarbecueChicken");
+    	 ItemChickenFinger = new ItemChickenFinger(ChickenFingerID, 2, 0.2F, false).setUnlocalizedName("ChickenFinger");
+    	 ItemCheeseburger = new ItemCheeseburger(CheeseburgerID, 14, 1.3F, false).setUnlocalizedName("Cheeseburger");
+    	 ItemApplePie = new ItemApplePie(ApplePieID, 10, 0.9F, false).setUnlocalizedName("ApplePie");
+    	 ItemChocolatePie = new ItemChocolatePie(ChocolatePieID, 10, 0.9F, false).setUnlocalizedName("ChocolatePie");
+    	 ItemChocolateBar = new ItemChocolateBar(ChocolateBarID, 7, 0.4F, false).setUnlocalizedName("ChocolateBar");
+    	 ItemChickenPizza = new ItemChickenPizza(ChickenPizzaID, 18, 1.5F, false).setUnlocalizedName("ChickenPizza");
+    	 ItemAnchoviesPizza = new ItemAnchoviesPizza(AnchoviesPizzaID, 18, 1.5F, false).setUnlocalizedName("AnchoviesPizza");
+    	 ItemBeefPizza = new ItemBeefPizza(BeefPizzaID, 18, 1.5F, false).setUnlocalizedName("BeefPizza");
+    	 ItemPepperoniPizza = new ItemPepperoniPizza(PepperoniPizzaID, 18, 1.5F, false).setUnlocalizedName("PepperoniPizza");
+    	 ItemCheesePizza = new ItemCheesePizza(CheesePizzaID, 15, 1.2F, false).setUnlocalizedName("CheesePizza");
+    	 ItemSauce = new ItemSauce(SauceID, 2, 0.3F, false).setUnlocalizedName("Sauce");
+    	 ItemTomato = new ItemTomato(TomatoID, 1, 0.2F, false).setUnlocalizedName("Tomato");
+    	 ItemBagel = new ItemBagel(BagelID, 8, 0.8F, false).setUnlocalizedName("Bagel");
+    	 ItemCreamCheese = new ItemCreamCheese(CreamCheeseID, 2, 0.3F, false).setUnlocalizedName("CreamCheese");
+    	 ItemBeefSandwich = new ItemBeefSandwich(BeefSandwichID, 12, 1F, false).setUnlocalizedName("BeefSandwich");
+    	 ItemPorkSandwich = new ItemPorkSandwich(PorkSandwichID, 12, 1F, false).setUnlocalizedName("PorkSandwich");
+    	 ItemChickenSandwich = new ItemChickenSandwich(ChickenSandwichID, 12, 1F, false).setUnlocalizedName("ChickenSandwich");
+    	 ItemFishSandwich = new ItemFishSandwich(FishSandwichID, 12, 1F, false).setUnlocalizedName("FishSandwich");
+    	 ItemToastedBread = new ItemToastedBread(ToastedBreadID, 8, 0.6F, false).setUnlocalizedName("ToastedBread");
+    	 ItemBreadSlice = new ItemBreadSlice(BreadSliceID, 1, 0.6F, false).setUnlocalizedName("BreadSlice");
+    	 ItemToast = new ItemToast(ToastID, 2, 0.6F, false).setUnlocalizedName("Toast");
+    	 ItemCheese = new ItemCheese(CheeseID, 1, 0.3F, false).setUnlocalizedName("Cheese");
+    	 ItemGrilledCheese = new ItemGrilledCheese(GrilledCheeseID, 6, 0.9F, false).setUnlocalizedName("GrilledCheese");
 
-     	BlockTomatoCrop = new BlockTomatoCrop(TomatoCropID, 0);
+//     	BlockTomatoCrop = new BlockTomatoCrop(TomatoCropID, 0);  //TODO Add tomato block
         ItemTomatoSeed = (ItemSeeds) new ItemSeeds(TomatoSeedID,
-                BlockTomatoCrop.blockID, Block.tilledField.blockID).setIconIndex(0)
-                .setTextureFile(proxy.TomatoSeed);
+                BlockTomatoCrop.blockID, Block.tilledField.blockID);
 
     }
     
@@ -456,13 +458,13 @@ public class Gibbycraft
         GameRegistry.addRecipe(new ItemStack(ItemTomatoSeed, 1), new Object [] {"T", Character.valueOf('T'), ItemTomato});
         
         GameRegistry.addSmelting(TomatoID, new ItemStack(ItemSauce, 1), 0.1F);
-        GameRegistry.addSmelting(Item.bread.shiftedIndex, new ItemStack(ItemToastedBread, 1), 0.1F);
+        GameRegistry.addSmelting(Item.bread.itemID, new ItemStack(ItemToastedBread, 1), 0.1F);
         GameRegistry.addSmelting(BreadSliceID, new ItemStack(ItemToast, 1), 0.1F);
         GameRegistry.addSmelting(TortillaID, new ItemStack(ItemTacoShell, 1), 0.1F);
         GameRegistry.addSmelting(PotatoSlicesID, new ItemStack(ItemFries, 1), 0.1F);
         GameRegistry.addSmelting(PotatoBitsID, new ItemStack(ItemTaterTots, 1), 0.1F);
-        GameRegistry.addSmelting(Item.egg.shiftedIndex, new ItemStack(ItemCookedEgg, 1), 0.1F);
-        
+        GameRegistry.addSmelting(Item.egg.itemID, new ItemStack(ItemCookedEgg, 1), 0.1F);
+       /* Comment in when IC2 added in
         Ic2Recipes.addExtractorRecipe(new ItemStack(Item.bucketMilk, 1), new ItemStack(ItemCheese, 2));
         Ic2Recipes.addExtractorRecipe(new ItemStack(Item.wheat, 1), new ItemStack(ItemNoodles, 1));
         
@@ -470,7 +472,7 @@ public class Gibbycraft
         
         Ic2Recipes.addMaceratorRecipe(new ItemStack(Item.potato, 1), new ItemStack(ItemPotatoBits, 1));
         Ic2Recipes.addMaceratorRecipe(new ItemStack(ItemCookedEgg, 1), new ItemStack(ItemScrambledEgg, 1));
-                
+                */
     }
 	
     private void registerFoodNames()
