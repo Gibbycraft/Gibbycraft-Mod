@@ -4,7 +4,12 @@
 
 package gibbycraft.items.food;
 
+
+import gibbycraft.Gibbycraft;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.src.*;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.*;
 
@@ -27,10 +32,13 @@ public class ItemApplePie extends ItemFood
 	}
 
 	/**
-	 * @return the location of the image, used by ClientProxy
+	 * Overrides the client proxy's need to register the texture. 
+	 * @param icon The request for the icon
 	 */
-	public String getTextureFile()
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister icon)
 	{
-		return "/gibbycraft/gui/ApplePie.png";
+		this.itemIcon = icon.registerIcon(Gibbycraft.modid + ":" + (this.getUnlocalizedName().substring(5)));
+		
 	}
 }

@@ -4,11 +4,14 @@
 
 package gibbycraft.items.food;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gibbycraft.Gibbycraft;
 import net.minecraft.src.*;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.*;
+import gibbycraft.proxies.*;
 
 public class ItemAnchoviesPizza extends ItemFood
 {
@@ -28,6 +31,10 @@ public class ItemAnchoviesPizza extends ItemFood
 		this.setCreativeTab(CreativeTabs.tabFood);
 	}
 	
+	/**
+	 * Overrides the client proxy's need to register the texture. 
+	 * @param icon The request for the icon
+	 */
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister icon)
 	{
