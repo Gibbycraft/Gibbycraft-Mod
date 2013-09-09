@@ -21,6 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Init;
@@ -35,8 +36,10 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import gibbycraft.proxies.*;
-import gibbycraft.items.food.*; /* // may not need this block
+import gibbycraft.items.food.*;
+import gibbycraft.items.plants.*;
 import gibbycraft.blocks.plants.*;
+/* // may not need this block
 import gibbycraft.block.technic.*;
 import gibbycraft.items.tools.*;
 import ic2.api.*;
@@ -407,9 +410,11 @@ public class Gibbycraft
     	 ItemCheese = new ItemCheese(CheeseID, 1, 0.3F, false).setUnlocalizedName("Cheese");
     	 ItemGrilledCheese = new ItemGrilledCheese(GrilledCheeseID, 6, 0.9F, false).setUnlocalizedName("GrilledCheese");
 
-//     	BlockTomatoCrop = new BlockTomatoCrop(TomatoCropID, 0);  //TODO Add tomato block
-        ItemTomatoSeed = (ItemSeeds) new ItemSeeds(TomatoSeedID,
-                BlockTomatoCrop.blockID, Block.tilledField.blockID);
+    	 BlockTomatoCrop = new BlockTomatoCrop(TomatoCropID, TomatoSeedID, TomatoID);
+    	 
+    	 //adds ItemTomatoSeed as an ItemSeeds
+         ItemTomatoSeed = (ItemSeeds) new ItemTomatoSeed(TomatoSeedID,
+                BlockTomatoCrop.blockID, Block.tilledField.blockID).setUnlocalizedName("TomatoSeed");
 
     }
     
@@ -455,7 +460,7 @@ public class Gibbycraft
         GameRegistry.addRecipe(new ItemStack(ItemToast, 4), new Object [] {"#", Character.valueOf('#'), ItemToastedBread});
         GameRegistry.addRecipe(new ItemStack(ItemBreadSlice, 4), new Object [] {"#", Character.valueOf('#'), Item.bread});
         GameRegistry.addRecipe(new ItemStack(ItemGrilledCheese, 1), new Object [] {"#","%","#", Character.valueOf('#'), ItemToast, Character.valueOf('%'), ItemCheese});
-        GameRegistry.addRecipe(new ItemStack(ItemTomatoSeed, 1), new Object [] {"T", Character.valueOf('T'), ItemTomato});
+        GameRegistry.addRecipe(new ItemStack(ItemTomatoSeed, 4), new Object [] {"T", Character.valueOf('T'), ItemTomato});
         
         GameRegistry.addSmelting(TomatoID, new ItemStack(ItemSauce, 1), 0.1F);
         GameRegistry.addSmelting(Item.bread.itemID, new ItemStack(ItemToastedBread, 1), 0.1F);
@@ -531,5 +536,10 @@ public class Gibbycraft
         LanguageRegistry.addName(BlockTomatoCrop, "Tomato Crop");
         LanguageRegistry.addName(ItemTomatoSeed, "Tomato Seed");
 
+    }
+    
+    private void loadSeeds()
+    {
+    	MinecraftForge.addGrassSeed(new ItemStack(ItemTomatoSeed), 15);
     }
 }
